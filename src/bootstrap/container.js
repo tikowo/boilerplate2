@@ -13,9 +13,27 @@ container.register('ExpressRouter', awilix.asFunction(makeRouter))
 
 container.loadModules([
     [
-        './src/Router/*.js',
+        './src/app/routes/*.js',
         {
             register: awilix.asFunction
+        }
+    ],
+    [
+        './src/app/middleware/*.js',
+        {
+            register: awilix.asFunction
+        }
+    ],
+    [
+        './src/app/controllers/*.js',
+        {
+            register: awilix.asFunction
+        }
+    ],
+    [
+        './src/app/models/*.js',
+        {
+            register: awilix.asValue
         }
     ]
 ]);

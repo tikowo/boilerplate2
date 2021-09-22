@@ -5,15 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src"
+    "dev": "nodemon ./src",
+    "migrate:latest": "knex --knexfile src/config/knexconfig.js migrate:latest",
+    "migrate:make": "knex --knexfile src/config/knexconfig.js migrate:make",
+    "migrate:rollback": "knex --knexfile src/config/knexconfig.js migrate:rollback",
+    "seed:make": "knex --knexfile src/config/knexconfig.js seed:make",
+    "seed:run": "knex --knexfile src/config/knexconfig.js seed:run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.14.1",
     "awilix": "^5.0.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "knex": "^0.95.11",
+    "mysql2": "^2.3.0",
+    "objection": "^2.2.16"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
