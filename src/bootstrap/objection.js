@@ -9,4 +9,3 @@ assert(knexConfig !== null, 'Database connection configured incorrectly');
 
 const knex = Knex(knexConfig);
 Model.knex(knex);
-

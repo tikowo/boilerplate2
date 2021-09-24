@@ -8,7 +8,13 @@ module.exports = {
     appName: process.env.APP_NAME,
     env: process.env.NODE_ENV,
     port: process.env.PORT,
-
+    jwt: {
+        secret: process.env.JWT_SECRET
+    },
+    cors: {
+        origin: '*',
+        maxAge: 3600
+    },
     // config for database
     db: {
         development: {
