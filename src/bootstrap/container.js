@@ -46,6 +46,13 @@ container.loadModules([
         }
     ],
     [
+        './src/app/validators/*.js',
+        {
+            register: awilix.asFunction,
+            lifetime: awilix.Lifetime.SINGLETON
+        }
+    ],
+    [
         './src/app/models/*.js',
         {
             register: awilix.asValue

@@ -2,8 +2,8 @@ const makeItemController = ({ Controller, Item, UserMarket, Product }) => {
     return Controller({
         async index(req, res, next) {
             const market = await UserMarket.query().withGraphFetched('[products.item, item.[attributes.[attribute, option]]]');
-            const prod = await Product.query().withGraphFetched('item');
-            return res.send({prod, market});
+            // const prod = await Product.query().withGraphFetched('item');
+            return res.send(market);
             // const category = Number(req.query.category ?? 0);
             //
             // let q = Item.query()

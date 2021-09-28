@@ -1,7 +1,6 @@
 const awilix = require('awilix')
 
-const makeAuthService = require('./authService')
-
+const makeAuthService = require('./authService');
 const ElasticSearchClient = require('./elasticSearchService');
 container.register('ElasticSearchClient', awilix.asValue(ElasticSearchClient));
 
