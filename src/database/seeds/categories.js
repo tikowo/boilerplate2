@@ -45,7 +45,7 @@ exports.seed = function (knex) {
         items.push({
           id: i,
           category_id: faker.datatype.number({min: 1, max: 3}),
-          market_id: 1
+          item_id: 1
         })
 
         attributes.push({
@@ -64,20 +64,72 @@ exports.seed = function (knex) {
 
       await knex('options').insert([{value: 'blue'}])
       await knex('options_attributes').insert([{option_id: 1, attribute_id: 2}]);
-      return;
-      
 
-      await knex('item_attributes').insert([
-        {
-          value: "Blue",
-          item_id: 1,
-          attribute_id: 1
-        },
-        {
-          value: "Esim",
-          item_id: 1,
-          attribute_id: 2
+        await knex('user_markets').insert([
+            {
+                name: 'Auto.am',
+                logo: 'https://auto.am/assets/ico/fi/favicon-32x32.png',
+                user_id: 1
+            },
+            {
+                name: 'flowwers.coffee',
+                logo: 'https://app.yooscout.com/public/favicon-96x96-dunplab-manifest-31116.png',
+                user_id: 1
+            }
+        ])
+
+        await knex('items').insert([
+            {
+                category_id: 3,
+                item_type: 'UserMarket',
+                item_id: 1
+            },
+            {
+                category_id: 3,
+                item_type: 'UserMarket',
+                item_id: 2
+            },
+            {
+                category_id: 3,
+                item_type: 'Product',
+                item_id: 1
+            },
+            {
+                category_id: 3,
+                item_type: 'Product',
+                item_id: 2
+            },
+            {
+                category_id: 3,
+                item_type: 'Product',
+                item_id: 3
+            }
+        ]);
+
+        await knex('products').insert([
+            {
+                market_id: 1
+            },
+            {
+                market_id: 1
+            },
+            {
+                market_id: 2
+            },
+        ])
+        attributes = [];
+        for(let i = 400; i <= 404; i++) {
+            attributes.push({
+                item_id: i,
+                value: "Asdf",
+                attribute_id: 1
+            })
+            attributes.push({
+                item_id: i,
+                value: "fdsa",
+                attribute_id: 2
+            })
         }
-      ])
+        await knex('item_attributes').insert(attributes);
     });
 };

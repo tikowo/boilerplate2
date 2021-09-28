@@ -13,17 +13,4 @@ exports.seed = async function (knex) {
       password: hash
     },
   ]);
-
-  await knex('user_markets').insert([
-    {
-      name: 'Auto.am',
-      logo: 'https://auto.am/assets/ico/fi/favicon-32x32.png',
-      user_id: 1
-    },
-    {
-      name: 'flowwers.coffee',
-      logo: 'https://auto.am/assets/ico/fi/favicon-32x32.png',
-      user_id: 1
-    }
-  ])
 };

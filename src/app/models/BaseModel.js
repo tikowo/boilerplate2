@@ -41,14 +41,21 @@ class BaseModel extends Model {
         });
     }
 
-    $afterInsert() {
+    async $afterInsert() {
         if(config('elastic.enabled') && this.elasticSearchable) {
             const [index, body, id] = this.elasticSearchable;
+
+            let data;
+            if(typeof body === 'function') {
+                data = await body();
+            } else {
+                data = body;
+            }
 
             const { ElasticSearchClient } = ioc;
             ElasticSearchClient.index({
                 index: `${config('elastic.prefix')}-${index}`,
-                body,
+                body: data,
                 id
             })
         }

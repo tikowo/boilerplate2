@@ -34,7 +34,7 @@ const makeAuthController = ({ Controller, User, AuthService }) => {
             return res.status(201).json(user);
         },
         async me(req, res, next) {
-            const user = await req.auth().withGraphFetched('[markets.[products.[attributes.[option, attribute]]]]');
+            const user = await req.auth().withGraphFetched('[markets]');
             return res.json(user);
         }
     })
