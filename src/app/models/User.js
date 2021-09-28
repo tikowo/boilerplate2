@@ -23,6 +23,19 @@ class User extends BaseModel {
         return ['users', this, this.id]
     }
 
+    static get relationMappings() {
+        return {
+            markets: {
+                relation: BaseModel.HasManyRelation,
+                modelClass: 'UserMarket',
+                join: {
+                    from: 'users.id',
+                    to: 'user_markets.user_id'
+                }
+            }
+        }
+    }
+
 }
 
 module.exports = User;

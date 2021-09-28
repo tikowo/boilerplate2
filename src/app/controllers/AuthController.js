@@ -1,5 +1,5 @@
-const makeAuthController = ({ User, AuthService }) => {
-    return {
+const makeAuthController = ({ Controller, User, AuthService }) => {
+    return Controller({
         async login(req, res, next) {
             const { email, password } = req.body;
             const user = await User.query().where('email', email).first();
@@ -34,10 +34,10 @@ const makeAuthController = ({ User, AuthService }) => {
             return res.status(201).json(user);
         },
         async me(req, res, next) {
-            const user = await req.auth();
+            const user = await req.auth().withGraphFetched('[markets.[products.[attributes.[option, attribute]]]]');
             return res.json(user);
         }
-    }
+    })
 }
 
 module.exports = makeAuthController;
