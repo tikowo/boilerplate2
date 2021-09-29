@@ -1,6 +1,11 @@
 const BaseModel = require('./BaseModel');
 
 class Product extends BaseModel {
+    get elasticSearchable() {
+        const data = async () => await Product.query().withItem().findById(this.id);
+        return ['products', data, this.id]
+    }
+
     static get relationMappings() {
         return {
             item: {

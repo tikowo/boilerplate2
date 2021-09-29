@@ -16,7 +16,7 @@ class UserMarket extends BaseModel {
     }
 
     get elasticSearchable() {
-        const data = async () => await UserMarket.query().withGraphFetched('[item]').findById(this.id);
+        const data = async () => await UserMarket.query().withGraphFetched('[item.[attributes.[attribute, option]]]').findById(this.id);
         return ['user_markets', data, this.id]
     }
 

@@ -29,4 +29,8 @@ then register router in  `./src/Router/Router.js` like shown
         return ExpressRouter;
     }
 
+#### TODO
 
+    validators are antipattern, rework
+    sync Item events with i don't know what
+    add grouping to categories

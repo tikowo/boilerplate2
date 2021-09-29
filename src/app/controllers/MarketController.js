@@ -1,8 +1,9 @@
-const makeMarketController = ({ Controller, UserMarket, Item, ItemValidator }) => {
+const makeMarketController = ({ Controller, UserMarket, ItemService }) => {
     return Controller({
         async create(req, res, next) {
             const marketName = req.body.name;
             const authId = (await req.auth()).id;
+            //TODO insertGraph with item
             const market = await UserMarket.query().insert({
                 name: marketName,
                 logo: 'https://auto.am/assets/ico/fi/favicon-32x32.png',
@@ -13,53 +14,30 @@ const makeMarketController = ({ Controller, UserMarket, Item, ItemValidator }) =
         },
 
         async magic(req, res, next) {
+            //TODO rewrite
             const authId = (await req.auth()).id;
-
             // validate that market exists
-            const market = await UserMarket.query().withGraphFetched('item').where({ id: req.params.id, user_id: authId }).first();
+            let market = await UserMarket.query().withGraphFetched('item').where({ id: req.params.id, user_id: authId }).first();
+
             if (!market) {
                 throw new Error('Bad request');
             }
 
             if (!market.item) {
-                // todo validate
-                const category = req.body.category;
                 await UserMarket.relatedQuery('item').for(market.id).insert({
-                    category_id: category
+                    category_id: 4
                 });
-            }
-            const itemValidator = (await ItemValidator)[market.item.category_id];
-            const valid = itemValidator(req.body);
-            const errors = itemValidator.errors;
-
-            if (!valid) {
-                throw new Error('invalid');
+                market = await market.$query().withGraphFetched('item');
             }
 
-            const _ids = Object.keys(req.body).map(i => Number(i));
-            const _items = [];
-            _ids.forEach(id => {
-                let keyAttr = req.body[id].value ? 'value' : 'option_id';
-                if (Array.isArray(req.body[id][keyAttr])) {
-                    req.body[id][keyAttr].forEach(value => {
-                        _items.push({
-                            attribute_id: id,
-                            [keyAttr]: value
-                        })
-                    });
-                    return;
-                }
-                _items.push({
-                    attribute_id: id,
-                    [keyAttr]: req.body[id][keyAttr]
-                })
-            })
+            const data = await ItemService.insertItemAttributes(req.body, market.item);
+            market.$afterInsert();
+            return res.json(data);
+        },
 
-            await Item.relatedQuery('attributes').for(market.item.id).delete().whereIn('attribute_id', _ids);
-            const savedAttributes = await Item.relatedQuery('attributes').for(market.item.id).insertGraph([
-                ..._items
-            ])
-            res.json(savedAttributes)
+        async marketProducts(req, res, next) {
+            const products = await UserMarket.relatedQuery('products').withItem().for(req.params.id)
+            res.json(products)
         }
     })
 }

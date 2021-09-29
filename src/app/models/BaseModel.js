@@ -1,6 +1,17 @@
 const { Model, AjvValidator } = require('objection');
 
+const { QueryBuilder } = require('objection');
+
+class ExtendedQueryBuilder extends QueryBuilder {
+    withItem() {
+        return this.withGraphFetched('[item.[attributes.[attribute, option]]]')
+    }
+}
+
 class BaseModel extends Model {
+    static get QueryBuilder() {
+        return ExtendedQueryBuilder;
+    }
     static get modelPaths() {
         return [__dirname];
     }

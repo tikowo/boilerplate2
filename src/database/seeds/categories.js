@@ -24,43 +24,31 @@ exports.seed = function (knex) {
           min_length: '1',
           max_length: '255',
           format: 'email'
+        },
+        {
+          name: 'name',
+          value_type: 'string',
+          min_length: '1',
+          max_length: '255',
         }
       ])
 
       await knex('item_categories').insert([
         { id: 1, name: 'electronics' },
         { id: 2, parent_id: 1, name: 'phones' },
-        { id: 3, parent_id: 2, name: 'Iphones' }
+        { id: 3, parent_id: 2, name: 'Iphones' },
+        { id: 4, name: 'Market' }
       ]);
 
       await knex('attributes_categories').insert([
         { attribute_id: 1, category_id: 3 },
         { attribute_id: 2, category_id: 3 },
-        { attribute_id: 3, category_id: 3 }
+        { attribute_id: 3, category_id: 3 },
+        { attribute_id: 4, category_id: 4}
       ]);
 
       let items = [];
       let attributes = [];
-      for(let i = 1; i < 400; i++) {
-        items.push({
-          id: i,
-          category_id: faker.datatype.number({min: 1, max: 3}),
-          item_id: 1
-        })
-
-        attributes.push({
-            item_id: i,
-            value: "Asdf",
-            attribute_id: 1
-        })
-        attributes.push({
-            item_id: i,
-            value: "fdsa",
-            attribute_id: 2
-        })
-      }
-      await knex('items').insert(items)
-      await knex('item_attributes').insert(attributes);
 
       await knex('options').insert([{value: 'blue'}])
       await knex('options_attributes').insert([{option_id: 1, attribute_id: 2}]);
@@ -80,27 +68,27 @@ exports.seed = function (knex) {
 
         await knex('items').insert([
             {
-                category_id: 3,
+                category_id: 4,
                 item_type: 'UserMarket',
                 item_id: 1
             },
             {
-                category_id: 3,
+                category_id: 4,
                 item_type: 'UserMarket',
                 item_id: 2
             },
             {
-                category_id: 3,
+                category_id: 4,
                 item_type: 'Product',
                 item_id: 1
             },
             {
-                category_id: 3,
+                category_id: 4,
                 item_type: 'Product',
                 item_id: 2
             },
             {
-                category_id: 3,
+                category_id: 4,
                 item_type: 'Product',
                 item_id: 3
             }
@@ -118,16 +106,11 @@ exports.seed = function (knex) {
             },
         ])
         attributes = [];
-        for(let i = 400; i <= 404; i++) {
+        for(let i = 1; i <= 4; i++) {
             attributes.push({
                 item_id: i,
                 value: "Asdf",
-                attribute_id: 1
-            })
-            attributes.push({
-                item_id: i,
-                value: "fdsa",
-                attribute_id: 2
+                attribute_id: 4
             })
         }
         await knex('item_attributes').insert(attributes);

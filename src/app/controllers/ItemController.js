@@ -1,4 +1,4 @@
-const makeItemController = ({ Controller, Item, UserMarket, Product }) => {
+const makeItemController = ({ Controller, Item, UserMarket, Product, ItemCategory }) => {
     return Controller({
         async index(req, res, next) {
             const market = await UserMarket.query().withGraphFetched('[products.item, item.[attributes.[attribute, option]]]');
@@ -17,6 +17,16 @@ const makeItemController = ({ Controller, Item, UserMarket, Product }) => {
             // const data = await q;
             // // data.results = data.results.map(item => item.formattedAttributes)
             // return res.send(data);
+        },
+        async categories(req, res, next) {
+            const categories = await ItemCategory.query().withGraphFetched('children');
+            return res.json(categories);
+        },
+        async categoryAttributes(req, res, next) {
+            const categoryId = req.params.id;
+            const category = await ItemCategory.query().withGraphFetched('attributes').findById(categoryId);
+
+            return res.json(category);
         }
     });
 }

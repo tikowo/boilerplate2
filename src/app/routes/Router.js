@@ -5,7 +5,8 @@ module.exports = makeRouter = (
         ExampleRouter,
         AuthRouter,
         ItemRouter,
-        MarketRouter
+        MarketRouter,
+        ProductRouter
     }) => {
 
     ExpressRouter.use('/example', ExampleRouter);
@@ -13,6 +14,7 @@ module.exports = makeRouter = (
     ExpressRouter.use('/items', ItemRouter);
 
     ExpressRouter.use('/market', MarketRouter);
+    ExpressRouter.use('/product', ProductRouter);
 
     ExpressRouter.use(ErrorMiddleware);
 
